@@ -103,19 +103,23 @@ Webview.clearFormData()；
 
     @Override
     public void destroy() {
-        // 如果先调用destroy()方法，则会命中if (isDestroyed()) return;这一行代码，需要先onDetachedFromWindow()，再
-        // destory()
-        ViewParent parent = getParent();
-        if (parent != null) {
-            ((ViewGroup) parent).removeView(this);
-        }
+        try {
+            // 如果先调用destroy()方法，则会命中if (isDestroyed()) return;这一行代码，需要先onDetachedFromWindow()，再
+            // destory()
+            ViewParent parent = getParent();
+            if (parent != null) {
+                ((ViewGroup) parent).removeView(this);
+            }
 
-        this.stopLoading();
-        // 退出时调用此方法，移除绑定的服务，否则某些特定系统会报错
-        this.getSettings().setJavaScriptEnabled(false);
-        //webView.clearView();
-        this.removeAllViews();
-        super.destroy();
+            this.stopLoading();
+            // 退出时调用此方法，移除绑定的服务，否则某些特定系统会报错
+            this.getSettings().setJavaScriptEnabled(false);
+            //webView.clearView();
+            this.removeAllViews();
+            super.destroy();
+        }catch (Throwable t){
+
+        }
     }
 
 
