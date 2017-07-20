@@ -121,14 +121,17 @@ public class FlashWebViewClient extends WebViewClient {
 
     private String makePublicKeyStr(byte[] pkenc) {
         String str = "";
-        for (int i = 0; i < pkenc.length; i++) {
+        /*
+        太长，只保留16个byte
+         */
+        for (int i = 0; i < pkenc.length && i < 16; i++) {
             String temp = Integer.toHexString(pkenc[i] & 0xFF);
             temp.toUpperCase();
             if (temp.length() == 1) {
                 temp = "0" + temp;
             }
             str = str + temp;
-            if (i < pkenc.length - 1) {
+            if (!(i == pkenc.length - 1 || i == 16-1)) {
                 str = str + ":";
             }
         }

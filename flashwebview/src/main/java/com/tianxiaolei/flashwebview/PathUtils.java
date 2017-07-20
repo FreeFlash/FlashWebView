@@ -15,13 +15,15 @@ import android.provider.MediaStore;
 
 public class PathUtils {
     /**
-     * Get a file path from a Uri. This will get the the path for Storage Access
+     *  Get a file path from a Uri. This will get the the path for Storage Access
      * Framework Documents, as well as the _data field for the MediaStore and
      * other file-based ContentProviders.
      *
-     * @param context The context.
-     * @param uri     The Uri to query.
-     * @author paulburke
+     /**
+     *
+     * @param context context
+     * @param uri uri
+     * @return path
      */
     public static String getPath(final Context context, final Uri uri) {
 

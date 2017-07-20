@@ -7,7 +7,6 @@ import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.webkit.DownloadListener;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 /**
@@ -44,37 +43,11 @@ Webview.clearFormData()；
 
 
     private void init() {
-        defaultConfig();
+
     }
 
-    private void defaultConfig() {
-        defaultSetting();
-        this.setDownloadable(true);
-    }
-
-    private void defaultSetting() {
-        WebSettings webSettings = this.getSettings();
-
-        webSettings.setJavaScriptEnabled(true);
-        //支持插件
-//        webSettings.setPluginsEnabled(true);
-        //设置自适应屏幕，两者合用
-        webSettings.setUseWideViewPort(true); //将图片调整到适合webview的大小
-        webSettings.setLoadWithOverviewMode(true); // 缩放至屏幕的大小
-        //缩放操作
-        //去掉缩放按钮，消除异常java.lang.IllegalArgumentException: Receiver not registered: android.widget.ZoomButtonsController
-        webSettings.setSupportZoom(true); //支持缩放，默认为true。是下面那个的前提。
-        webSettings.setBuiltInZoomControls(true); //设置内置的缩放控件。若为false，则该WebView不可缩放
-        webSettings.setDisplayZoomControls(false); //隐藏原生的缩放控件
-
-        webSettings.setDomStorageEnabled(true);
-        //其他细节操作
-        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK); //关闭webview中缓存
-        webSettings.setAllowFileAccess(true); //设置可以访问文件
-        webSettings.setJavaScriptCanOpenWindowsAutomatically(true); //支持通过JS打开新窗口
-        webSettings.setLoadsImagesAutomatically(true); //支持自动加载图片
-        webSettings.setDefaultTextEncodingName("utf-8");//设置编码格式
-
+    public void defaultSetting() {
+        FlashWebViewUtil.setDefaultConfig(this.getSettings());
     }
 
 
@@ -117,7 +90,7 @@ Webview.clearFormData()；
             //webView.clearView();
             this.removeAllViews();
             super.destroy();
-        }catch (Throwable t){
+        } catch (Throwable t) {
 
         }
     }

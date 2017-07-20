@@ -1,8 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'
-//apply plugin: 'com.github.dcendents.android-maven'
-//apply plugin: 'com.jfrog.bintray'
-//group='com.github.freeflash'
 
 android {
     compileSdkVersion 25
@@ -12,7 +8,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 25
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.2"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -34,12 +30,28 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 
-//apply from: '../bintray.gradle'
-publish {
-    userOrg = 'tianxiaolei111'      //bintray注册的用户名
-    groupId = 'com.tianxiaolei'         //compile引用时的第1部分groupId
-    artifactId = 'flashwebview'     //compile引用时的第2部分项目名
-    publishVersion = '1.0.0'    //compile引用时的第3部分版本号
-    desc = 'easy webview'
-    website = 'https://github.com/FreeFlash/FlashWebView'
+ext {
+    bintrayRepo = 'android'
+    bintrayName = 'flashwebview'
+
+    siteUrl = 'https://github.com/FreeFlash/FlashWebView'
+    gitUrl = 'https://github.com/FreeFlash/FlashWebView.git'
+
+    groupId = 'com.flash.flashwebview'
+    artifactId = 'flashwebview'
+
+    libraryName = 'flashwebview'
+    libraryVersion = '1.0.4'
+    libraryDescription = 'This is easy webview.'
+
+    developerId = 'FreeFlash'
+    developerName = 'FreeFlash'
+    developerEmail = 'tianxiaolei111@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
 }
+
+apply from: '../install.gradle'
+apply from: '../bintray.gradle'
