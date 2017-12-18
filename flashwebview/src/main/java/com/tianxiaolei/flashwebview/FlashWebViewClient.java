@@ -86,6 +86,15 @@ public class FlashWebViewClient extends WebViewClient {
 
     @Override
     public void onReceivedSslError(WebView webView, final SslErrorHandler handler, final SslError error) {
+        try {
+           BigInteger serialNumber = getSsLSerialNumber(error);
+            for (int i = 0; i < enableSslSerialNumberList.size(); i++) {
+                if (serialNumber.compareTo(enableSslSerialNumberList.get(i))==0) {
+                    handler.proceed();
+                    return;
+                }
+            }
+        }catch (Throwable t){}
         sslRequestQueue.add(new SsLEvent(handler, error));
         sslHandler.sendEmptyMessage(SSL_TAG);
     }

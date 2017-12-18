@@ -41,7 +41,7 @@ ext {
     artifactId = 'flashwebview'
 
     libraryName = 'flashwebview'
-    libraryVersion = '1.0.9'
+    libraryVersion = '1.0.12'
     libraryDescription = 'This is easy webview.'
 
     developerId = 'FreeFlash'

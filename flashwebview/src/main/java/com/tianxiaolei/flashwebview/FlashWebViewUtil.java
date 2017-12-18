@@ -26,7 +26,7 @@ public class FlashWebViewUtil {
 
         webSettings.setDomStorageEnabled(true);
         //其他细节操作
-        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK); //关闭webview中缓存
+        webSettings.setCacheMode(WebSettings.LOAD_DEFAULT); //webview默认缓存策略
         webSettings.setAllowFileAccess(true); //设置可以访问文件
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true); //支持通过JS打开新窗口
         webSettings.setLoadsImagesAutomatically(true); //支持自动加载图片
@@ -47,6 +47,7 @@ public class FlashWebViewUtil {
             //webView.clearView();
             webView.removeAllViews();
             webView.destroy();
+            webView = null;
         } catch (Throwable t) {
 
         }
