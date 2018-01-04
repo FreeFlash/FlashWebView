@@ -3,6 +3,7 @@ package com.tianxiaolei.flashwebview;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.webkit.ValueCallback;
@@ -33,7 +34,7 @@ public class FlashWebChromeClient extends WebChromeClient {
     public void openFileChooser(ValueCallback<Uri> uploadFile, String acceptType) {
         try {
             context.startActivityForResult(createFileChooserIntent(uploadFile), REQUEST_UPLOAD_FILE_CODE);
-        } catch (Throwable t) {
+        } catch (Throwable ignored) {
         }
 
     }
@@ -151,11 +152,16 @@ public class FlashWebChromeClient extends WebChromeClient {
                     }
                     try {
                         if (mUploadFile != null) {
-                            if (PathUtils.getPath(context, result) != null) {
-                                mUploadFile.onReceiveValue(Uri.parse(PathUtils.getPath(context, result)));
+                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                                if (PathUtils.getPath(context, result) != null) {
+                                    mUploadFile.onReceiveValue(Uri.parse(PathUtils.getPath(context, result)));
+                                } else {
+                                    mUploadFile.onReceiveValue(result);
+                                }
                             } else {
                                 mUploadFile.onReceiveValue(result);
                             }
+
                             mUploadFile = null;
                         }
                     } catch (Throwable e) {

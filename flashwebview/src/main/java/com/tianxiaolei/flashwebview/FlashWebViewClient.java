@@ -43,9 +43,9 @@ public class FlashWebViewClient extends WebViewClient {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case SSL_TAG:
-                    if(sslBlock){
-                        sslHandler.sendEmptyMessageDelayed(SSL_TAG,500);
-                    }else{
+                    if (sslBlock) {
+                        sslHandler.sendEmptyMessageDelayed(SSL_TAG, 500);
+                    } else {
                         if (sslRequestQueue.size() > 0) {
                             SsLEvent ssLEvent = sslRequestQueue.get(0);
                             handleSslEvent(ssLEvent);
@@ -87,14 +87,14 @@ public class FlashWebViewClient extends WebViewClient {
     @Override
     public void onReceivedSslError(WebView webView, final SslErrorHandler handler, final SslError error) {
         try {
-           BigInteger serialNumber = getSsLSerialNumber(error);
+            BigInteger serialNumber = getSsLSerialNumber(error);
             for (int i = 0; i < enableSslSerialNumberList.size(); i++) {
-                if (serialNumber.compareTo(enableSslSerialNumberList.get(i))==0) {
+                if (serialNumber.compareTo(enableSslSerialNumberList.get(i)) == 0) {
                     handler.proceed();
                     return;
                 }
             }
-        }catch (Throwable t){}
+        }catch (Throwable ignored){}
         sslRequestQueue.add(new SsLEvent(handler, error));
         sslHandler.sendEmptyMessage(SSL_TAG);
     }
@@ -128,28 +128,27 @@ public class FlashWebViewClient extends WebViewClient {
             e.printStackTrace();
         } catch (Throwable t) {
             t.printStackTrace();
-        } finally {
-            return str;
         }
+        return str;
     }
 
     private String makePublicKeyStr(byte[] pkenc) {
-        String str = "";
+        StringBuilder str = new StringBuilder();
         /*
         太长，只保留16个byte
          */
         for (int i = 0; i < pkenc.length && i < 16; i++) {
             String temp = Integer.toHexString(pkenc[i] & 0xFF);
-            temp.toUpperCase();
+            temp = temp.toUpperCase();
             if (temp.length() == 1) {
                 temp = "0" + temp;
             }
-            str = str + temp;
+            str.append(temp);
             if (!(i == pkenc.length - 1 || i == 16 - 1)) {
-                str = str + ":";
+                str.append(":");
             }
         }
-        return str;
+        return str.toString();
     }
 
     private void handleSslEvent(final SsLEvent ssLEvent) {
@@ -162,7 +161,7 @@ public class FlashWebViewClient extends WebViewClient {
             BigInteger serialNumber = getSsLSerialNumber(ssLEvent.sslError);
             if (serialNumber != null) {
                 for (int i = 0; i < enableSslSerialNumberList.size(); i++) {
-                    if (serialNumber.compareTo(enableSslSerialNumberList.get(i))==0) {
+                    if (serialNumber.compareTo(enableSslSerialNumberList.get(i)) == 0) {
                         ssLEvent.errorHandler.proceed();
                         sslBlock = false;
                         return;
@@ -198,7 +197,7 @@ public class FlashWebViewClient extends WebViewClient {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     BigInteger serialNumber = getSsLSerialNumber(ssLEvent.sslError);
-                    if(serialNumber != null){
+                    if (serialNumber != null) {
                         enableSslSerialNumberList.add(serialNumber);
                     }
                     sslBlock = false;
